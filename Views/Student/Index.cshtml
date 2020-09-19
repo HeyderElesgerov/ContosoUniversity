@@ -1,0 +1,84 @@
+﻿@model ContosoUniversity.ViewModels.SortedAndFilteredStudentsViewModel;
+
+@{
+    ViewData["Title"] = "Students";
+}
+
+<h1>Students List</h1>
+
+<p>
+    <a asp-action="Create">Add new Student</a>
+</p>
+
+
+
+
+<form method="get" asp-action="Index">
+    <label>Search by name </label>
+    @Html.TextBoxFor(m => m.SearchString)
+
+    <input type="submit" class="btn btn-primary" formmethod="get" value="Search" /> |
+
+    <a asp-route-currentPage="@Model.CurrentPage">Back to page</a>
+</form>
+
+@if (Model.Students.Count() != 0)
+{
+    <table class="table table-light">
+        <thead>
+            <tr>
+                <th>
+                    <a asp-route-sortby="@Model.SortyByFirstName" asp-route-searchstring="@Model.SearchString"
+                       asp-route-currentPage="@Model.CurrentPage">
+                        @Html.DisplayNameFor(m => m.Students.First().FirstName)
+                    </a>
+                </th>
+                <th>
+                    <a asp-route-sortby="@Model.SortByLastName" asp-route-searchstring="@Model.SearchString"
+                       asp-route-currentPage="@Model.CurrentPage">
+                        @Html.DisplayNameFor(m => m.Students.First().LastName)
+                    </a>
+                </th>
+                <th>
+                    <a asp-route-sortby="@Model.SortyByEnollmentDate" asp-route-searchstring="@Model.SearchString"
+                       asp-route-currentPage="@Model.CurrentPage">
+                        @Html.DisplayNameFor(m => m.Students.First().EnrollmentDate)
+                    </a>
+                </th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var student in Model.Students)
+            {
+                <tr>
+                    <td>@student.FirstName</td>
+                    <td>@student.LastName</td>
+                    <td>@student.EnrollmentDate</td>
+                    <td>
+                        <a asp-action="Edit" asp-route-id="@student.ID" class="btn-outline-info">Edit</a> |
+                        <a asp-action="Delete" asp-route-id="@student.ID" class="btn-outline-danger">Delete</a> |
+                        <a asp-action="Details" asp-route-id="@student.ID" class="btn-outline-info">Details</a>
+                    </td>
+                </tr>
+            }
+
+        </tbody>
+    </table>
+}
+
+@if (string.IsNullOrEmpty(Model.SearchString))
+{
+    <div class="align-content-center">
+
+        @if (Model.PreviousPageExist)
+        {
+            <div><a asp-route-currentPage="@Model.PreviousPage"class="btn btn-danger">Previous</a></div>
+        }
+
+        @if (Model.NextPageExists)
+        {
+            <div><a asp-route-currentPage="@Model.NextPage" class="btn btn-success">Next</a></div>
+        }
+    </div>
+}

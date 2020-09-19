@@ -1,0 +1,188 @@
+﻿@model ContosoUniversity.ViewModels.InstructorsIndexViewModel;
+
+@{
+    ViewData["Title"] = "Instructors";
+}
+
+<h1>Instructors</h1>
+<a asp-action="Create">Add new Instructor</a>
+<br />
+
+
+@if (Model.Instructors.Count() != 0)
+{
+    <div>
+        <table class="table table-responsive">
+            <thead>
+                <tr>
+                    <th>@Html.DisplayNameFor(m => m.Instructors.First().FirstName)</th>
+                    <th>@Html.DisplayNameFor(m => m.Instructors.First().LastName)</th>
+                    <th>@Html.DisplayNameFor(m => m.Instructors.First().HireDate)</th>
+                    <th>@Html.DisplayNameFor(m => m.Instructors.First().OfficeAssignment)</th>
+                    <th>@Html.DisplayNameFor(m => m.Instructors.First().CourseAssignments)</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+
+                @foreach (var instructor in Model.Instructors)
+                {
+                    if (instructor.ID == Model.SelectedInstructorId)
+                    {
+                        <tr style="background-color: #BAFF83;">
+                            <td>@instructor.FirstName</td>
+                            <td>@instructor.LastName</td>
+                            <td>@instructor.HireDate</td>
+
+                            <td>
+                                @if (instructor.OfficeAssignment != null)
+                                {
+                                    @instructor.OfficeAssignment.Location
+                                }
+                            </td>
+
+                            <td>
+                                @foreach (var courseAssignment in instructor.CourseAssignments)
+                                {
+                                    <p>
+                                        @courseAssignment.Course.Title
+
+                                    </p>
+                                }
+                            </td>
+
+                            <td>
+                                <p><a asp-action="Index" asp-route-selectedInstructorId="@instructor.ID">Select</a></p>
+                                <p>
+                                    <a asp-action="Edit" asp-route-id="@instructor.ID">Edit</a> |
+                                    <a asp-action="Details" asp-route-id="@instructor.ID">Details</a> |
+                                    <a asp-action="Delete" asp-route-id="@instructor.ID">Delete</a>
+                                </p>
+                            </td>
+                        </tr>
+                    }
+                    else
+                    {
+                        <tr>
+                            <td>@instructor.FirstName</td>
+                            <td>@instructor.LastName</td>
+                            <td>@instructor.HireDate</td>
+
+                            <td>
+                                @if (instructor.OfficeAssignment != null)
+                                {
+                                    @instructor.OfficeAssignment.Location
+                                }
+                            </td>
+
+                            <td>
+                                @foreach (var courseAssignment in instructor.CourseAssignments)
+                                {
+                                    <p>
+                                        @courseAssignment.Course.Title
+
+                                    </p>
+                                }
+                            </td>
+
+                            <td>
+                                <p><a asp-action="Index" asp-route-selectedInstructorId="@instructor.ID">Select</a></p>
+                                <p>
+                                    <a asp-action="Edit" asp-route-id="@instructor.ID">Edit</a> |
+                                    <a asp-action="Details" asp-route-id="@instructor.ID">Details</a> |
+                                    <a asp-action="Delete" asp-route-id="@instructor.ID">Delete</a>
+                                </p>
+                            </td>
+                        </tr>
+                    }
+                }
+
+            </tbody>
+        </table>
+
+        <br />
+
+        @if (Model.CoursesOfSelectedInstructor != null)
+        {
+            <h2>Courses taught by selected instructor</h2>
+
+            @if (Model.CoursesOfSelectedInstructor.Count() != 0)
+            {
+                <table class="table table-responsive">
+                    <thead>
+                        <tr>
+                            <th>@Html.DisplayNameFor(m => m.CoursesOfSelectedInstructor.First().ID)</th>
+                            <th>@Html.DisplayNameFor(m => m.CoursesOfSelectedInstructor.First().Title)</th>
+                            <th>@Html.DisplayNameFor(m => m.CoursesOfSelectedInstructor.First().Department)</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var course in Model.CoursesOfSelectedInstructor)
+                        {
+                            if (course.ID == Model.SelectedCourseId)
+                            {
+                                <tr style="background-color: #BAFF83;">
+                                    <td>@course.ID</td>
+                                    <td>@course.Title</td>
+                                    <td>@course.Department.Name</td>
+                                    <td><a asp-route-selectedCourseId="@course.ID" asp-route-selectedInstructorId="@Model.SelectedInstructorId">Select</a></td>
+                                </tr>
+                            }
+                            else
+                            {
+                                <tr>
+                                    <td>@course.ID</td>
+                                    <td>@course.Title</td>
+                                    <td>@course.Department.Name</td>
+                                    <td><a asp-route-selectedCourseId="@course.ID" asp-route-selectedInstructorId="@Model.SelectedInstructorId">Select</a></td>
+                                </tr>
+                            }
+
+                        }
+                    </tbody>
+                </table>
+
+                @if (Model.EnrollemntsOfSelectedCourse != null)
+                {
+                    <h2>Students who enrolled in selected course</h2>
+
+                    @if (Model.EnrollemntsOfSelectedCourse.Count() != 0)
+                    {
+                        <table class="table table-responsive">
+                            <thead>
+                                <tr>
+                                    <th>@Html.DisplayNameFor(m => m.EnrollemntsOfSelectedCourse.First().Student.FirstName)</th>
+                                    <th>@Html.DisplayNameFor(m => m.EnrollemntsOfSelectedCourse.First().Student.LastName)</th>
+                                    <th>@Html.DisplayNameFor(m => m.EnrollemntsOfSelectedCourse.First().Grade)</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var enrollment in Model.EnrollemntsOfSelectedCourse)
+                                {
+                                    <tr>
+                                        <td>@enrollment.Student.FirstName</td>
+                                        <td>@enrollment.Student.LastName</td>
+                                        <td>@enrollment.Grade</td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    }
+                    else
+                    {
+                        <p>There is no any student who enrolled this course</p>
+                    }
+                }
+            }
+            else
+            {
+                <b>There is no any course taught by selected instructor!</b>
+            }
+        }
+    </div>
+}
+else
+{
+    <h3>There is no Instructor here. Try to add new one...</h3>
+}

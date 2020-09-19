@@ -1,0 +1,51 @@
+﻿@model ContosoUniversity.Models.Student;
+
+@{
+    ViewData["Title"] = "Student Details";
+}
+
+<h1>Student Details</h1>
+
+<b>@Html.DisplayNameFor(m => m.FirstName): </b><span>@Html.DisplayFor(m => m.FirstName)</span>
+<br />
+<b>@Html.DisplayNameFor(m => m.LastName): </b><span>@Html.DisplayFor(m => m.LastName)</span>
+<br />
+<b>@Html.DisplayNameFor(m => m.EnrollmentDate): </b><span>@Html.DisplayFor(m => m.EnrollmentDate)</span>
+<br />
+<br />
+<b>@Html.DisplayNameFor(m => m.Enrollments) </b>
+
+@if (Model.Enrollments.Count == 0)
+{
+    <span>There is no any enrollments</span>
+}
+else
+{
+    <br />
+    <table class="table table-responsive-md">
+        <thead>
+        <th>@Html.DisplayNameFor(m => m.Enrollments.First().Course.Title)</th>
+        <th>@Html.DisplayNameFor(m => m.Enrollments.First().Course.Credits)</th>
+        <th>@Html.DisplayNameFor(m => m.Enrollments.First().Grade)</th>
+        </thead>
+        <tbody>
+            @foreach (var enrollment in Model.Enrollments)
+            {
+                <tr>
+                    <td>@enrollment.Course.Title</td>
+                    <td>@enrollment.Course.Credits</td>
+                    <td>@enrollment.Grade</td>
+                </tr>
+            }
+
+        </tbody>
+    </table>
+}
+
+<br />
+<hr style="width: 100%;" />
+<p>
+    <a asp-action="Edit" asp-route-id="@Model.ID" class="btn-light">Edit</a>
+    <a asp-action="Delete" asp-route-id="@Model.ID" class="btn-danger">Delete</a>
+    <a asp-action="Index" class="btn-info">Back to List</a>
+</p>

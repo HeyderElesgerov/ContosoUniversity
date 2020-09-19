@@ -1,0 +1,31 @@
+﻿@model ContosoUniversity.Models.Student;
+
+@{
+    ViewData["Title"] = "Edit Student";
+}
+
+<h1>Edit Student Info</h1>
+<br />
+
+@using (Html.BeginForm("Edit", "Student"))
+{
+    @Html.HiddenFor(m => m.ID)
+
+    <div class="form-group">
+        @Html.DisplayNameFor(m => m.FirstName)
+        @Html.EditorFor(m => m.FirstName)
+        @Html.ValidationMessageFor(m => m.FirstName)
+    </div>
+    <div class="form-group">
+        @Html.DisplayNameFor(m => m.LastName)
+        @Html.EditorFor(m => m.LastName)
+        @Html.ValidationMessageFor(m => m.LastName)
+    </div>
+    <div class="form-group">
+        @Html.DisplayNameFor(m => m.EnrollmentDate)
+        @Html.EditorFor(m => m.EnrollmentDate)
+        @Html.ValidationMessageFor(m => m.EnrollmentDate)
+    </div>
+
+    <input type="submit" value="Save" />
+}

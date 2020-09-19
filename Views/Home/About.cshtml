@@ -1,0 +1,34 @@
+﻿@model IEnumerable<ContosoUniversity.ViewModels.EnrollmentDateGroup>;
+
+@{
+    ViewData["Title"] = "About";
+}
+
+<h1>About Contoso University</h1>
+
+<div>
+    @if (Model.Count() == 0)
+    {
+        <p>There is no any enrollemnt!</p>
+    }
+    else
+    {
+        <table class="table table-light">
+            <thead>
+                <tr>
+                    <th>@Html.DisplayNameFor(m => m.EnrollmentDate)</th>
+                    <th>@Html.DisplayNameFor(m => m.StudentCount)</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var group in Model)
+                {
+                    <tr>
+                        <td>@group.EnrollmentDate</td>
+                        <td>@group.StudentCount</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    }
+</div>

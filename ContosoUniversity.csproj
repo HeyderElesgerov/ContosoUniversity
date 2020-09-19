@@ -1,0 +1,36 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="Migrations\20200914091940_AddDepartmentsTable.cs" />
+    <Compile Remove="Migrations\20200914091940_AddDepartmentsTable.Designer.cs" />
+    <Compile Remove="Migrations\20200914095805_AddDepartmentIdColumnToCoursesTable.cs" />
+    <Compile Remove="Migrations\20200914095805_AddDepartmentIdColumnToCoursesTable.Designer.cs" />
+    <Compile Remove="Migrations\20200914102251_AddDepartmentIdColumnToCoursesTable.cs" />
+    <Compile Remove="Migrations\20200914102251_AddDepartmentIdColumnToCoursesTable.Designer.cs" />
+    <Compile Remove="Migrations\20200914104442_AddDepartmentIdColumnToCoursesTable.cs" />
+    <Compile Remove="Migrations\20200914104442_AddDepartmentIdColumnToCoursesTable.Designer.cs" />
+    <Compile Remove="Migrations\20200914105212_AddDepartmentIdToCoursesTable.cs" />
+    <Compile Remove="Migrations\20200914105212_AddDepartmentIdToCoursesTable.Designer.cs" />
+    <Compile Remove="Migrations\20200914112418_AddDepartmentIdColumnToCoursesTAble.cs" />
+    <Compile Remove="Migrations\20200914112418_AddDepartmentIdColumnToCoursesTAble.Designer.cs" />
+    <Compile Remove="Migrations\20200914113522_AddInstructorsTable.cs" />
+    <Compile Remove="Migrations\20200914113522_AddInstructorsTable.Designer.cs" />
+    <Compile Remove="Migrations\20200914114816_AddNullableInstructorIdColumnToDepartmentsTable.cs" />
+    <Compile Remove="Migrations\20200914114816_AddNullableInstructorIdColumnToDepartmentsTable.Designer.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="3.1.7" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="3.1.7" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="3.1.7">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="3.1.4" />
+  </ItemGroup>
+
+</Project>
