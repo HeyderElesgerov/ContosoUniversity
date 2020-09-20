@@ -1,0 +1,30 @@
+﻿@model ContosoUniversity.ViewModels.CreateCourseViewModel;
+
+@{
+    ViewData["Title"] = "New Course";
+}
+
+<h1>Create a new course</h1>
+
+@using (Html.BeginForm())
+{
+    <div class="form-group">
+        <label>@Html.NameFor(m => m.Title)</label>
+        @Html.EditorFor(m => m.Title)
+        <span class="text-danger">@Html.ValidationMessageFor(m => m.Title)</span>
+    </div>
+    <div class="form-group">
+        <label>@Html.NameFor(m => m.Credits)</label>
+        @Html.EditorFor(m => m.Credits)
+        <span class="text-danger">@Html.ValidationMessageFor(m => m.Credits)</span>
+    </div>
+    <div class="form-group">
+        <label>@Html.NameFor(m => m.Department)</label>
+        @Html.DropDownListFor(m => m.Department, Model.DepartmentsSelectList);
+        <span class="text-danger">@Html.ValidationMessageFor(m => m.Credits)</span>
+    </div>
+
+    <div class="btn-block">
+        <input type="submit" value="Save" />
+    </div>
+}
