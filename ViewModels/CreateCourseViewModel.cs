@@ -16,7 +16,7 @@ namespace ContosoUniversity.ViewModels
         [Required]
         public int Credits { get; set; }
 
-        public Department Department { get; set; }
+        public int DepartmentId { get; set; }
 
         public List<SelectListItem> DepartmentsSelectList { get; set; }
     }
