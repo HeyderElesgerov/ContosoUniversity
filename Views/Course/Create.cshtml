@@ -19,8 +19,8 @@
         <span class="text-danger">@Html.ValidationMessageFor(m => m.Credits)</span>
     </div>
     <div class="form-group">
-        <label>@Html.NameFor(m => m.Department)</label>
-        @Html.DropDownListFor(m => m.Department, Model.DepartmentsSelectList)
+        <label>Department</label>
+        @Html.DropDownListFor(m => m.DepartmentId, Model.DepartmentsSelectList)
         <span class="text-danger">@Html.ValidationMessageFor(m => m.Credits)</span>
     </div>
 
