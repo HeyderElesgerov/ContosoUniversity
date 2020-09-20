@@ -1,5 +1,5 @@
 # ContosoUniversity
-ContosoUniversity is a web program which manages students, courses, enrollments, instructors. 
+ContosoUniversity is a web program which manages students, courses, enrollments, instructors and departments.
 
 
 ### ROADMAP
