@@ -14,10 +14,11 @@ namespace ContosoUniversity.ViewModels
         public string Title { get; set; }
 
         [Required]
+        [Range(1, 100)]
         public int Credits { get; set; }
 
         public int DepartmentId { get; set; }
 
-        public List<SelectListItem> DepartmentsSelectList { get; set; }
+        public List<SelectListItem> DepartmentsSelectListItems { get; set; }
     }
 }
