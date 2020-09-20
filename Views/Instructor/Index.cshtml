@@ -29,72 +29,44 @@
                 {
                     if (instructor.ID == Model.SelectedInstructorId)
                     {
-                        <tr style="background-color: #BAFF83;">
-                            <td>@instructor.FirstName</td>
-                            <td>@instructor.LastName</td>
-                            <td>@instructor.HireDate</td>
+                        ViewData["selectedTR"] = "bg-success";
 
-                            <td>
-                                @if (instructor.OfficeAssignment != null)
-                                {
-                                    @instructor.OfficeAssignment.Location
-                                }
-                            </td>
-
-                            <td>
-                                @foreach (var courseAssignment in instructor.CourseAssignments)
-                                {
-                                    <p>
-                                        @courseAssignment.Course.Title
-
-                                    </p>
-                                }
-                            </td>
-
-                            <td>
-                                <p><a asp-action="Index" asp-route-selectedInstructorId="@instructor.ID">Select</a></p>
-                                <p>
-                                    <a asp-action="Edit" asp-route-id="@instructor.ID">Edit</a> |
-                                    <a asp-action="Details" asp-route-id="@instructor.ID">Details</a> |
-                                    <a asp-action="Delete" asp-route-id="@instructor.ID">Delete</a>
-                                </p>
-                            </td>
-                        </tr>
                     }
                     else
                     {
-                        <tr>
-                            <td>@instructor.FirstName</td>
-                            <td>@instructor.LastName</td>
-                            <td>@instructor.HireDate</td>
-
-                            <td>
-                                @if (instructor.OfficeAssignment != null)
-                                {
-                                    @instructor.OfficeAssignment.Location
-                                }
-                            </td>
-
-                            <td>
-                                @foreach (var courseAssignment in instructor.CourseAssignments)
-                                {
-                                    <p>
-                                        @courseAssignment.Course.Title
-
-                                    </p>
-                                }
-                            </td>
-
-                            <td>
-                                <p><a asp-action="Index" asp-route-selectedInstructorId="@instructor.ID">Select</a></p>
-                                <p>
-                                    <a asp-action="Edit" asp-route-id="@instructor.ID">Edit</a> |
-                                    <a asp-action="Details" asp-route-id="@instructor.ID">Details</a> |
-                                    <a asp-action="Delete" asp-route-id="@instructor.ID">Delete</a>
-                                </p>
-                            </td>
-                        </tr>
+                        ViewData["selectedTR"] = "";
                     }
+                    <tr class="@ViewData["selectedTR"]">
+                        <td>@instructor.FirstName</td>
+                        <td>@instructor.LastName</td>
+                        <td>@instructor.HireDate</td>
+
+                        <td>
+                            @if (instructor.OfficeAssignment != null)
+                            {
+                                @instructor.OfficeAssignment.Location
+                            }
+                        </td>
+
+                        <td>
+                            @foreach (var courseAssignment in instructor.CourseAssignments)
+                            {
+                                <p>
+                                    @courseAssignment.Course.Title
+
+                                </p>
+                            }
+                        </td>
+
+                        <td>
+                            <p><a asp-action="Index" asp-route-selectedInstructorId="@instructor.ID">Select</a></p>
+                            <p>
+                                <a asp-action="Edit" asp-route-id="@instructor.ID">Edit</a> |
+                                <a asp-action="Details" asp-route-id="@instructor.ID">Details</a> |
+                                <a asp-action="Delete" asp-route-id="@instructor.ID">Delete</a>
+                            </p>
+                        </td>
+                    </tr>
                 }
 
             </tbody>
@@ -122,23 +94,18 @@
                         {
                             if (course.ID == Model.SelectedCourseId)
                             {
-                                <tr style="background-color: #BAFF83;">
-                                    <td>@course.ID</td>
-                                    <td>@course.Title</td>
-                                    <td>@course.Department.Name</td>
-                                    <td><a asp-route-selectedCourseId="@course.ID" asp-route-selectedInstructorId="@Model.SelectedInstructorId">Select</a></td>
-                                </tr>
+                                ViewData["selectedTR"] = "bg-success";
                             }
                             else
                             {
-                                <tr>
-                                    <td>@course.ID</td>
-                                    <td>@course.Title</td>
-                                    <td>@course.Department.Name</td>
-                                    <td><a asp-route-selectedCourseId="@course.ID" asp-route-selectedInstructorId="@Model.SelectedInstructorId">Select</a></td>
-                                </tr>
+                                ViewData["selectedTR"] = "";
                             }
-
+                            <tr class="@ViewData["selectedTR"]">
+                                <td>@course.ID</td>
+                                <td>@course.Title</td>
+                                <td>@course.Department.Name</td>
+                                <td><a asp-route-selectedCourseId="@course.ID" asp-route-selectedInstructorId="@Model.SelectedInstructorId">Select</a></td>
+                            </tr>
                         }
                     </tbody>
                 </table>
