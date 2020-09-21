@@ -189,6 +189,10 @@ namespace ContosoUniversity.Controllers
         {
             var course = await _context.Courses
                                         .Include(p => p.Department)
+                                        .Include(p => p.Enrollments)
+                                            .ThenInclude(e => e.Student)
+                                        .Include(p => p.CourseAssignments)
+                                            .ThenInclude(p => p.Instructor)
                                         .Where(c => c.ID == id).FirstOrDefaultAsync();
 
             if (course == null)
