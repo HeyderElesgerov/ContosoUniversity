@@ -9,12 +9,7 @@ namespace ContosoUniversity.ViewModels
 {
     public class EditCourseViewModel
     {
-        public EditCourseViewModel(int id)
-        {
-            this.ID = id;
-        }
-
-        public readonly int ID;
+        public int ID { get; set; }
 
         [Required]
         public string Title { get; set; }

@@ -108,10 +108,65 @@ namespace ContosoUniversity.Controllers
             if (courseInDb == null)
                 return NotFound();
 
-            var viewModel = new EditCourseViewModel(id);
+            var viewModel = new EditCourseViewModel();
+            viewModel.ID = id;
             viewModel.Title = courseInDb.Title;
             viewModel.Credits = courseInDb.Credits;
             viewModel.DepartmentId = courseInDb.Department.DepartmentId;
+
+            viewModel.DepartmentsSelectListItems = new List<SelectListItem>();
+
+            foreach (var department in _context.Departments)
+            {
+                var selectListItem = new SelectListItem()
+                {
+                    Text = department.Name,
+                    Value = department.DepartmentId.ToString(),
+                    Selected = department.DepartmentId == viewModel.DepartmentId
+                };
+
+                viewModel.DepartmentsSelectListItems.Add(selectListItem);
+            }
+
+            return View(viewModel);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Edit(int id, EditCourseViewModel viewModel)
+        {
+            if (ModelState.IsValid)
+            {
+                if (id != viewModel.ID)
+                    return BadRequest();
+
+                var courseInDb = await _context.Courses.Where(c => c.ID == id).FirstOrDefaultAsync();
+
+                if (courseInDb == null)
+                    return NotFound();
+
+                _context.Entry(courseInDb).State = EntityState.Modified;
+
+                courseInDb.Title = viewModel.Title;
+                courseInDb.Credits = viewModel.Credits;
+
+                var departmentInDb = await _context.Departments.Where(d => d.DepartmentId == viewModel.DepartmentId).FirstOrDefaultAsync();
+
+                if (departmentInDb != null)
+                {
+                    courseInDb.Department = departmentInDb;
+
+                    try
+                    {
+                        _context.Update(courseInDb);
+                        await _context.SaveChangesAsync();
+                        return RedirectToAction(nameof(Index));
+                    }
+                    catch(DBConcurrencyException)
+                    {
+                        ModelState.AddModelError("DatabaseError", "Cannot update course. Try again later.");
+                    }
+                }
+            }
 
             viewModel.DepartmentsSelectListItems = new List<SelectListItem>();
 
