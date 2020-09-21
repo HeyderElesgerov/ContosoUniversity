@@ -1,15 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using ContosoUniversity.Models;
+using ContosoUniversity.ViewModels;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.EntityFrameworkCore;
+using System;
+using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Threading.Tasks;
-using ContosoUniversity.Models;
-using ContosoUniversity.ViewModels;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using System.Data;
-using ContosoUniversity.Migrations;
 
 namespace ContosoUniversity.Controllers
 {
@@ -31,13 +29,30 @@ namespace ContosoUniversity.Controllers
             return View(courses);
         }
 
+        public async Task<IActionResult> Details(int id)
+        {
+            var course = await _context.Courses.AsNoTracking()
+                                    .Where(c => c.ID == id)
+                                    .Include(c => c.Department)
+                                    .Include(p => p.Enrollments)
+                                        .ThenInclude(p => p.Student)
+                                    .Include(p => p.CourseAssignments)
+                                        .ThenInclude(p => p.Instructor)
+                                    .FirstOrDefaultAsync();
+
+            if (course == null)
+                return NotFound();
+
+            return View(course);
+        }
+
         public IActionResult Create()
         {
             var newCourseViewModel = new CreateCourseViewModel();
 
             newCourseViewModel.DepartmentsSelectListItems = new List<SelectListItem>();
 
-            foreach(var department in _context.Departments)
+            foreach (var department in _context.Departments)
             {
                 var selectListItem = new SelectListItem()
                 {
@@ -161,7 +176,7 @@ namespace ContosoUniversity.Controllers
                         await _context.SaveChangesAsync();
                         return RedirectToAction(nameof(Index));
                     }
-                    catch(DBConcurrencyException)
+                    catch (DBConcurrencyException)
                     {
                         ModelState.AddModelError("DatabaseError", "Cannot update course. Try again later.");
                     }
