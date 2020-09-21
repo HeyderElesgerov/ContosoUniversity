@@ -30,16 +30,22 @@
                     <th>@Html.DisplayNameFor(m => m.Enrollments.First().Student.FirstName)</th>
                     <th>@Html.DisplayNameFor(m => m.Enrollments.First().Student.LastName)</th>
                     <th>@Html.DisplayNameFor(m => m.Enrollments.First().Student.EnrollmentDate)</th>
+                    <th></th>
                 </tr>
             </thead>
             <tbody>
                 @foreach (var enrollment in Model.Enrollments)
                 {
-                    <tr>
-                        <td>@enrollment.Student.FirstName</td>
-                        <td>@enrollment.Student.LastName</td>
-                        <td>@enrollment.Student.EnrollmentDate</td>
-                    </tr>
+                <tr>
+                    <td>@enrollment.Student.FirstName</td>
+                    <td>@enrollment.Student.LastName</td>
+                    <td>@enrollment.Student.EnrollmentDate</td>
+                    <td>
+                        <a asp-controller="Student" asp-action="Edit" asp-route-id="@enrollment.Student.ID" class="btn-outline-info">Edit</a> |
+                        <a asp-controller="Student" asp-action="Delete" asp-route-id="@enrollment.Student.ID" class="btn-outline-danger">Delete</a> |
+                        <a asp-controller="Student" asp-action="Details" asp-route-id="@enrollment.Student.ID" class="btn-outline-info">Details</a>
+                    </td>
+                </tr>
                 }
             </tbody>
         </table>
@@ -59,16 +65,22 @@
                     <th>@Html.DisplayNameFor(m => m.CourseAssignments.First().Instructor.FirstName)</th>
                     <th>@Html.DisplayNameFor(m => m.CourseAssignments.First().Instructor.LastName)</th>
                     <th>@Html.DisplayNameFor(m => m.CourseAssignments.First().Instructor.HireDate)</th>
+                    <th></th>
                 </tr>
             </thead>
             <tbody>
                 @foreach (var assignment in Model.CourseAssignments)
                 {
-                    <tr>
-                        <td>@assignment.Instructor.FirstName</td>
-                        <td>@assignment.Instructor.LastName</td>
-                        <td>@assignment.Instructor.HireDate</td>
-                    </tr>
+                <tr>
+                    <td>@assignment.Instructor.FirstName</td>
+                    <td>@assignment.Instructor.LastName</td>
+                    <td>@assignment.Instructor.HireDate</td>
+                    <td>
+                        <a asp-controller="Instructor" asp-action="Edit" asp-route-id="@assignment.Instructor.ID" class="btn-outline-info">Edit</a> |
+                        <a asp-controller="Instructor" asp-action="Delete" asp-route-id="@assignment.Instructor.ID" class="btn-outline-danger">Delete</a> |
+                        <a asp-controller="Instructor" asp-action="Details" asp-route-id="@assignment.Instructor.ID" class="btn-outline-info">Details</a>
+                    </td>
+                </tr>
                 }
             </tbody>
         </table>
@@ -78,3 +90,5 @@
         <span>Not taught</span>
     }
 </div>
+<br />
+<a asp-action="Index">Back to list</a>

@@ -10,22 +10,23 @@
 {
 
     <div class="form-group">
-        <label>@Html.NameFor(m => m.Title)</label>
+        <p>@Html.NameFor(m => m.Title)</p>
         @Html.EditorFor(m => m.Title)
         <span class="text-danger">@Html.ValidationMessageFor(m => m.Title)</span>
     </div>
     <div class="form-group">
-        <label>@Html.NameFor(m => m.Credits)</label>
+        <p>@Html.NameFor(m => m.Credits)</p>
         @Html.EditorFor(m => m.Credits)
         <span class="text-danger">@Html.ValidationMessageFor(m => m.Credits)</span>
     </div>
     <div class="form-group">
-        <label>Department</label>
+        <p>Department</p>
         @Html.DropDownListFor(m => m.DepartmentId, Model.DepartmentsSelectListItems, "Select department")
         <span class="text-danger">@Html.ValidationMessageFor(m => m.DepartmentId)</span>
     </div>
-
+    <br />
     <div class="btn-block">
         <input type="submit" value="Save" />
+        <a asp-action="Index">Back to list</a>
     </div>
 }
