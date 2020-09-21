@@ -1,0 +1,80 @@
+﻿@model ContosoUniversity.Models.Course;
+
+@{
+    ViewData["Title"] = "Course Details";
+}
+
+<h1>Details of course</h1>
+<br />
+
+@Html.HiddenFor(m => m.ID)
+<div class="form-group">
+    <b>@Html.DisplayNameFor(m => m.Title): </b>
+    <span>@Html.DisplayFor(m => m.Title)</span>
+</div>
+<div class="form-group">
+    <b>@Html.DisplayNameFor(m => m.Credits): </b>
+    <span>@Html.DisplayFor(m => m.Credits)</span>
+</div>
+<div class="form-group">
+    <b>Department: </b>
+    <span>@Html.DisplayFor(m => m.Department.Name)</span>
+</div>
+<div class="form-group">
+    <b>Enrolled by: </b>
+    @if (Model.Enrollments.Count != 0)
+    {
+        <table class="table table-active">
+            <thead>
+                <tr>
+                    <th>@Html.DisplayNameFor(m => m.Enrollments.First().Student.FirstName)</th>
+                    <th>@Html.DisplayNameFor(m => m.Enrollments.First().Student.LastName)</th>
+                    <th>@Html.DisplayNameFor(m => m.Enrollments.First().Student.EnrollmentDate)</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var enrollment in Model.Enrollments)
+                {
+                    <tr>
+                        <td>@enrollment.Student.FirstName</td>
+                        <td>@enrollment.Student.LastName</td>
+                        <td>@enrollment.Student.EnrollmentDate</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    }
+    else
+    {
+        <span>Not enrolled</span>
+    }
+</div>
+<div class="form-group">
+    <b>Taught by: </b>
+    @if (Model.CourseAssignments.Count != 0)
+    {
+        <table class="table table-active">
+            <thead>
+                <tr>
+                    <th>@Html.DisplayNameFor(m => m.CourseAssignments.First().Instructor.FirstName)</th>
+                    <th>@Html.DisplayNameFor(m => m.CourseAssignments.First().Instructor.LastName)</th>
+                    <th>@Html.DisplayNameFor(m => m.CourseAssignments.First().Instructor.HireDate)</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var assignment in Model.CourseAssignments)
+                {
+                    <tr>
+                        <td>@assignment.Instructor.FirstName</td>
+                        <td>@assignment.Instructor.LastName</td>
+                        <td>@assignment.Instructor.HireDate</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    }
+    else
+    {
+        <span>Not taught</span>
+    }
+</div>
