@@ -98,5 +98,36 @@ namespace ContosoUniversity.Controllers
 
             return View(viewModel);
         }
+
+        public async Task<IActionResult> Edit(int id)
+        {
+            var courseInDb = await _context.Courses
+                                        .Include(c => c.Department)
+                                        .Where(c => c.ID == id).FirstOrDefaultAsync();
+
+            if (courseInDb == null)
+                return NotFound();
+
+            var viewModel = new EditCourseViewModel(id);
+            viewModel.Title = courseInDb.Title;
+            viewModel.Credits = courseInDb.Credits;
+            viewModel.DepartmentId = courseInDb.Department.DepartmentId;
+
+            viewModel.DepartmentsSelectListItems = new List<SelectListItem>();
+
+            foreach (var department in _context.Departments)
+            {
+                var selectListItem = new SelectListItem()
+                {
+                    Text = department.Name,
+                    Value = department.DepartmentId.ToString(),
+                    Selected = department.DepartmentId == viewModel.DepartmentId
+                };
+
+                viewModel.DepartmentsSelectListItems.Add(selectListItem);
+            }
+
+            return View(viewModel);
+        }
     }
 }
