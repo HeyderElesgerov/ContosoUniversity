@@ -8,6 +8,7 @@
 
 @using (Html.BeginForm("Edit"))
 {
+    @Html.HiddenFor(m => m.ID)
     <div class="form-group">
         <label>@Html.DisplayNameFor(m => m.Title)</label>
         <p>@Html.EditorFor(m => m.Title)</p>
