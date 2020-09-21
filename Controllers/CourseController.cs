@@ -184,5 +184,17 @@ namespace ContosoUniversity.Controllers
 
             return View(viewModel);
         }
+
+        public async Task<IActionResult> Delete(int id)
+        {
+            var course = await _context.Courses
+                                        .Include(p => p.Department)
+                                        .Where(c => c.ID == id).FirstOrDefaultAsync();
+
+            if (course == null)
+                return NotFound();
+
+            return View(course);
+        }
     }
 }
