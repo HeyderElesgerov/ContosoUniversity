@@ -200,5 +200,24 @@ namespace ContosoUniversity.Controllers
 
             return View(course);
         }
+
+        [HttpPost]
+        public async Task<IActionResult> Delete(int id, Course course)
+        {
+            if (course.ID != id)
+                return BadRequest();
+
+            try
+            {
+                _context.Courses.Remove(course);
+                await _context.SaveChangesAsync();
+
+                return RedirectToAction(nameof(Index));
+            }
+            catch (DBConcurrencyException)
+            {
+                return View(course);
+            }
+        }
     }
 }
