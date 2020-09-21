@@ -1,0 +1,30 @@
+﻿@model ContosoUniversity.ViewModels.EditCourseViewModel;
+
+@{
+    ViewData["Title"] = "Edit Course";
+}
+
+<h1>Edit Course</h1>
+
+@using (Html.BeginForm("Edit"))
+{
+    <div class="form-group">
+        <label>@Html.DisplayNameFor(m => m.Title)</label>
+        <p>@Html.EditorFor(m => m.Title)</p>
+        <span class="text-danger">@Html.ValidationMessageFor(m => m.Title)</span>
+    </div>
+    <div class="form-group">
+        <label>@Html.DisplayNameFor(m => m.Credits)</label>
+        <p>@Html.EditorFor(m => m.Credits)</p>
+        <span class="text-danger">@Html.ValidationMessageFor(m => m.Credits)</span>
+    </div>
+    <div class="form-group">
+        <label>Department</label>
+        <p>@Html.DropDownListFor(m => m.DepartmentId, Model.DepartmentsSelectListItems, "Select Department")</p>
+        <span class="text-danger">@Html.ValidationMessageFor(m => m.DepartmentId)</span>
+    </div>
+    <br />
+    <div class="form-group">
+        <input type="submit" value="Save" />
+    </div>
+}
