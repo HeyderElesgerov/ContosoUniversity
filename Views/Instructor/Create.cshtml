@@ -1,0 +1,51 @@
+﻿@model ContosoUniversity.ViewModels.NewInstructorViewModel;
+
+@{
+    ViewData["Title"] = "New Instructor";
+}
+
+<h1>Add new instructor</h1>
+<br />
+
+@using (Html.BeginForm())
+{
+    <div class="form-group">
+        <b>@Html.DisplayNameFor(m => m.FirstName)</b>
+        <div>@Html.EditorFor(m => m.FirstName)</div>
+        <span class="text-danger">@Html.ValidationMessageFor(m => m.FirstName)</span>
+    </div>
+    <div class="form-group">
+        <b>@Html.DisplayNameFor(m => m.LastName)</b>
+        <div>@Html.EditorFor(m => m.LastName)</div>
+        <span class="text-danger">@Html.ValidationMessageFor(m => m.LastName)</span>
+    </div>
+    <div class="form-group">
+        <b>@Html.DisplayNameFor(m => m.HireDate)</b>
+        <div>@Html.EditorFor(m => m.HireDate)</div>
+        <span class="text-danger">@Html.ValidationMessageFor(m => m.HireDate)</span>
+    </div>
+    <div class="form-group">
+        <b>@Html.DisplayNameFor(m => m.OfficeLocation)</b>
+        <div>@Html.EditorFor(m => m.OfficeLocation)</div>
+        <span class="text-danger">@Html.ValidationMessageFor(m => m.OfficeLocation)</span>
+    </div>
+    <div class="form-group">
+        <b>@Html.DisplayNameFor(m => m.CourseAssignments)</b>
+        <div>
+            @for (int i = 0; i < Model.CourseAssignments.Count; i++)
+            {
+                <div>
+                    @Html.CheckBoxFor(m => m.CourseAssignments[i].IsAssigned)
+                    @Html.DisplayFor(m => m.CourseAssignments[i].CourseTitle)
+                    @Html.HiddenFor(m => m.CourseAssignments[i].CourseID)
+                    @Html.HiddenFor(m => m.CourseAssignments[i])
+                </div>
+            }
+        </div>
+    </div>
+    <br />
+    <div>
+        <input type="submit" value="Save"/>
+        <a asp-action="Index">Back to list</a>
+    </div>
+}
