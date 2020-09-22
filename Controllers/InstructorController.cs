@@ -2,6 +2,7 @@
 using ContosoUniversity.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
@@ -142,18 +143,85 @@ namespace ContosoUniversity.Controllers
             if (instructor == null)
                 return NotFound();
 
-            var viewModel = new NewInstructorViewModel();
+            var viewModel = new EditInstructorViewModel();
+            viewModel.ID = id;
             viewModel.FirstName = instructor.FirstName;
             viewModel.LastName = instructor.LastName;
             viewModel.HireDate = instructor.HireDate;
-            viewModel.OfficeLocation = 
-                    instructor.OfficeAssignment == null ? "" :instructor.OfficeAssignment.Location;
+            viewModel.OfficeLocation =
+                    instructor.OfficeAssignment == null ? "" : instructor.OfficeAssignment.Location;
 
             viewModel.CourseAssignments = await PopulateCourseAssignments(
                                                         (from assignment in instructor.CourseAssignments
                                                          select assignment.CourseId).ToArray()
                                                     );
 
+            return View(viewModel);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Edit(int id, EditInstructorViewModel viewModel)
+        {
+            if (id != viewModel.ID)
+                return BadRequest();
+
+            var instructorInDb = await _context.Instructors
+                                                .Include(p => p.OfficeAssignment)
+                                                .Include(p => p.CourseAssignments)
+                                                    .ThenInclude(p => p.Course)
+                                                .Where(i => i.ID == id).FirstOrDefaultAsync();
+
+            if (instructorInDb == null)
+                return NotFound();
+
+            if (ModelState.IsValid)
+            {
+                instructorInDb.FirstName = viewModel.FirstName;
+                instructorInDb.LastName = viewModel.LastName;
+                instructorInDb.HireDate = viewModel.HireDate;
+
+                if (!string.IsNullOrEmpty(viewModel.OfficeLocation))
+                {
+                    instructorInDb.OfficeAssignment = new OfficeAssignment()
+                    {
+                        Instructor = instructorInDb,
+                        Location = viewModel.OfficeLocation
+                    };
+                }
+                else
+                {
+                    instructorInDb.OfficeAssignment = null;
+                }
+
+                instructorInDb.CourseAssignments = new List<CourseAssignment>();
+                foreach (var courseAssignment in viewModel.CourseAssignments)
+                {
+                    if (courseAssignment.IsAssigned)
+                    {
+                        instructorInDb.CourseAssignments.Add(
+                                            new CourseAssignment()
+                                            {
+                                                Instructor = instructorInDb,
+                                                CourseId = courseAssignment.CourseID
+                                            });
+                    }
+                }
+
+                try
+                {
+                    await _context.SaveChangesAsync();
+                    return RedirectToAction(nameof(Index));
+                }
+                catch (DBConcurrencyException)
+                {
+                    ModelState.AddModelError("DatabaseError", "Cannot update instructor. Try again.");
+                }
+            }
+
+            viewModel.CourseAssignments = await PopulateCourseAssignments(
+                                                        (from assignment in instructorInDb.CourseAssignments
+                                                         select assignment.CourseId).ToArray()
+                                                                );
             return View(viewModel);
         }
 

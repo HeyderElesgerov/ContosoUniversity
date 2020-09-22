@@ -29,14 +29,15 @@
                 {
                     if (instructor.ID == Model.SelectedInstructorId)
                     {
-                        ViewData["selectedTR"] = "bg-success";
+                        ViewData["SelectedRowBackgroundColor"] = "#ACF771";
 
                     }
                     else
                     {
-                        ViewData["selectedTR"] = "";
+                        ViewData["SelectedRowBackgroundColor"] = "white";
                     }
-                    <tr class="@ViewData["selectedTR"]">
+
+                    <tr style="background-color:@ViewData["SelectedRowBackgroundColor"]">
                         <td>@instructor.FirstName</td>
                         <td>@instructor.LastName</td>
                         <td>@instructor.HireDate</td>
@@ -93,13 +94,14 @@
                         {
                             if (course.ID == Model.SelectedCourseId)
                             {
-                                ViewData["selectedTR"] = "bg-success";
+                                ViewData["SelectedRowBackgroundColor"] = "#ACF771";
                             }
                             else
                             {
-                                ViewData["selectedTR"] = "";
+                                ViewData["SelectedRowBackgroundColor"] = "white";
                             }
-                            <tr class="@ViewData["selectedTR"]">
+
+                            <tr style="background-color:@ViewData["SelectedRowBackgroundColor"]">
                                 <td>@course.ID</td>
                                 <td>@course.Title</td>
                                 <td>@course.Department.Name</td>

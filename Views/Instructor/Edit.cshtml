@@ -1,4 +1,4 @@
-﻿@model ContosoUniversity.ViewModels.NewInstructorViewModel;
+﻿@model ContosoUniversity.ViewModels.EditInstructorViewModel;
 
 @{ 
     ViewData["Title"] = "Edit Instructor";
@@ -9,6 +9,7 @@
 @using (Html.BeginForm())
 {
 <div class="form-group">
+    @Html.HiddenFor(m => m.ID)
     <div class="form-group">
         <b>@Html.DisplayNameFor(m => m.FirstName)</b>
         <div>@Html.EditorFor(m => m.FirstName)</div>
