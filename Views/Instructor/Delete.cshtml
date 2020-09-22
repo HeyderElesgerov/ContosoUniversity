@@ -1,0 +1,40 @@
+﻿@model ContosoUniversity.Models.Instructor;
+
+@{
+    ViewData["Title"] = "Delete Instructor";
+}
+
+<h1>Delete Instructor</h1>
+<br />
+
+@using (Html.BeginForm())
+{
+    <div class="form-group">
+        <b>@Html.DisplayNameFor(m => m.FirstName): </b>
+        <span>
+            @Html.DisplayFor(m => m.FirstName)
+        </span>
+    </div>
+    <div class="form-group">
+        <b>@Html.DisplayNameFor(m => m.LastName): </b>
+        <span>
+            @Html.DisplayFor(m => m.LastName)
+        </span>
+    </div>
+    <div class="form-group">
+        <b>@Html.DisplayNameFor(m => m.HireDate): </b>
+        <span>
+            @Html.DisplayFor(m => m.HireDate)
+        </span>
+    </div>
+    <div class="form-group">
+        <b>Office Location: </b>
+        <span>
+            @Html.DisplayFor(m => m.OfficeAssignment.Location)
+        </span>
+    </div>
+    <div class="form-group">
+        <input type="submit" value="Delete" class="bg-danger" />
+        <a asp-action="Index">Cancle</a>
+    </div>
+}
