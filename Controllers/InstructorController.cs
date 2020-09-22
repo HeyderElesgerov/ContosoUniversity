@@ -71,7 +71,7 @@ namespace ContosoUniversity.Controllers
 
             return View(viewModel);
         }
-        //post
+
         [HttpPost]
         public async Task<IActionResult> Create(NewInstructorViewModel newInstructorViewModel)
         {
@@ -130,9 +130,38 @@ namespace ContosoUniversity.Controllers
             return View(newInstructorViewModel);
         }
 
+        public async Task<IActionResult> Edit(int id)
+        {
+            var instructor = await _context.Instructors
+                                    .Include(p => p.OfficeAssignment)
+                                    .Include(p => p.CourseAssignments)
+                                        .ThenInclude(p => p.Course)
+                                    .Where(i => i.ID == id)
+                                    .FirstOrDefaultAsync();
+
+            if (instructor == null)
+                return NotFound();
+
+            var viewModel = new NewInstructorViewModel();
+            viewModel.FirstName = instructor.FirstName;
+            viewModel.LastName = instructor.LastName;
+            viewModel.HireDate = instructor.HireDate;
+            viewModel.OfficeLocation = 
+                    instructor.OfficeAssignment == null ? "" :instructor.OfficeAssignment.Location;
+
+            viewModel.CourseAssignments = await PopulateCourseAssignments(
+                                                        (from assignment in instructor.CourseAssignments
+                                                         select assignment.CourseId).ToArray()
+                                                    );
+
+            return View(viewModel);
+        }
+
         public async Task<IActionResult> Delete(int id)
         {
-            var instructor = await _context.Instructors.Where(c => c.ID == id).FirstOrDefaultAsync();
+            var instructor = await _context.Instructors.Where(c => c.ID == id)
+                                            .Include(p => p.OfficeAssignment)
+                                            .FirstOrDefaultAsync();
 
             if (instructor == null)
                 return NotFound();
@@ -152,11 +181,12 @@ namespace ContosoUniversity.Controllers
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            catch(DbUpdateException)
+            catch (DbUpdateException)
             {
                 return RedirectToAction("Error", "Home");
             }
         }
+
         private async Task<List<CourseAssignmentViewModel>> PopulateCourseAssignments()
         {
             var courseAssignments = new List<CourseAssignmentViewModel>();
@@ -168,6 +198,24 @@ namespace ContosoUniversity.Controllers
                     CourseID = course.ID,
                     CourseTitle = course.Title,
                     IsAssigned = false
+                };
+
+                courseAssignments.Add(courseAssignmentViewModel);
+            }
+
+            return courseAssignments;
+        }
+        private async Task<List<CourseAssignmentViewModel>> PopulateCourseAssignments(int[] selectedCoursesIds)
+        {
+            var courseAssignments = new List<CourseAssignmentViewModel>();
+
+            foreach (var course in await _context.Courses.ToListAsync())
+            {
+                var courseAssignmentViewModel = new CourseAssignmentViewModel
+                {
+                    CourseID = course.ID,
+                    CourseTitle = course.Title,
+                    IsAssigned = selectedCoursesIds.Contains(course.ID)
                 };
 
                 courseAssignments.Add(courseAssignmentViewModel);
