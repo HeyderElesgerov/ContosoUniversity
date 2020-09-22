@@ -130,6 +130,33 @@ namespace ContosoUniversity.Controllers
             return View(newInstructorViewModel);
         }
 
+        public async Task<IActionResult> Delete(int id)
+        {
+            var instructor = await _context.Instructors.Where(c => c.ID == id).FirstOrDefaultAsync();
+
+            if (instructor == null)
+                return NotFound();
+
+            return View(instructor);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Delete(int id, Instructor instructor)
+        {
+            if (id != instructor.ID)
+                return BadRequest();
+
+            try
+            {
+                _context.Instructors.Remove(instructor);
+                await _context.SaveChangesAsync();
+                return RedirectToAction(nameof(Index));
+            }
+            catch(DbUpdateException)
+            {
+                return RedirectToAction("Error", "Home");
+            }
+        }
         private async Task<List<CourseAssignmentViewModel>> PopulateCourseAssignments()
         {
             var courseAssignments = new List<CourseAssignmentViewModel>();
