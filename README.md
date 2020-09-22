@@ -7,3 +7,4 @@ ContosoUniversity is a web program which manages students, courses, enrollments,
 - ~~Performing CRUD operations on Instrcutors~~
 - Creating Departments page
 - Performing CRUD operations on Departments
+- Adding pagination, sorting and filtering to all pages
