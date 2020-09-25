@@ -1,0 +1,51 @@
+﻿@model IEnumerable<ContosoUniversity.Models.Department>;
+
+@{
+    ViewData["Title"] = "Departments";
+}
+
+<h1>Departments</h1>
+<br />
+<a asp-action="Create">Add new department</a>
+
+<div>
+    @if (Model.Count() != 0)
+    {
+        <table class="table table-responsive">
+            <thead>
+                <tr>
+                    <th>@Html.DisplayNameFor(m => m.First().Name)</th>
+                    <th>@Html.DisplayNameFor(m => m.First().Budget)</th>
+                    <th>@Html.DisplayNameFor(m => m.First().StartDate)</th>
+                    <th>@Html.DisplayNameFor(m => m.First().Adminstrator)</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var department in Model)
+                {
+                    <tr>
+                        <td>@department.Name</td>
+                        <td>@department.Budget</td>
+                        <td>@department.StartDate</td>
+
+                        @if (department.Adminstrator != null)
+                        {
+                            <td>@department.Adminstrator.FirstName @department.Adminstrator.LastName</td>
+                        }
+                        <td>
+                            <a asp-action="Edit" asp-route-id="@department.DepartmentId">Edit</a> |
+                            <a asp-action="Details" asp-route-id="@department.DepartmentId">Details</a> |
+                            <a asp-action="Delete" asp-route-id="@department.DepartmentId">Delete</a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    }
+    else
+    {
+        <p>There is no department</p>
+    }
+
+</div>
