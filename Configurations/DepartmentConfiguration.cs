@@ -1,10 +1,6 @@
 ﻿using ContosoUniversity.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace ContosoUniversity.Configurations
 {
@@ -19,6 +15,10 @@ namespace ContosoUniversity.Configurations
             builder
                 .Property(p => p.Budget)
                 .IsRequired();
+
+            builder.
+                Property(p => p.RowVersion)
+                .IsConcurrencyToken();
 
             builder
                 .HasOne(p => p.Adminstrator)

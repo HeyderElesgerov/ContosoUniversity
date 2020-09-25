@@ -20,6 +20,8 @@ namespace ContosoUniversity.Models
 
         public int? AdminstratorId { get; set; }
 
+        public byte[] RowVersion { get; set; }
+
         public Instructor Adminstrator { get; set; }
         public ICollection<Course> Courses { get; set; }
     }
