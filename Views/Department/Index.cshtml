@@ -28,15 +28,16 @@
                         <td>@department.Name</td>
                         <td>@department.Budget</td>
                         <td>@department.StartDate</td>
-
-                        @if (department.Adminstrator != null)
-                        {
-                            <td>@department.Adminstrator.FirstName @department.Adminstrator.LastName</td>
-                        }
                         <td>
-                            <a asp-action="Edit" asp-route-id="@department.DepartmentId">Edit</a> |
-                            <a asp-action="Details" asp-route-id="@department.DepartmentId">Details</a> |
-                            <a asp-action="Delete" asp-route-id="@department.DepartmentId">Delete</a>
+                            @if (department.Adminstrator != null)
+                            {
+                                <span>@department.Adminstrator.FirstName @department.Adminstrator.LastName</span>
+                            }
+                        </td>
+                        <td>
+                            <a asp-action="Edit" asp-route-id="@department.ID">Edit</a> |
+                            <a asp-action="Details" asp-route-id="@department.ID">Details</a> |
+                            <a asp-action="Delete" asp-route-id="@department.ID">Delete</a>
                         </td>
                     </tr>
                 }

@@ -1,0 +1,47 @@
+﻿@model ContosoUniversity.Models.Department;
+
+@{
+    ViewData["Title"] = "Edit department";
+}
+
+<h1>Edit department</h1>
+<br />
+
+<div>
+    @using (Html.BeginForm())
+    {
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+        @Html.HiddenFor(m => m.ID)
+        @Html.HiddenFor(m => m.RowVersion)
+
+        <div class="form-group">
+            <b>@Html.DisplayNameFor(m => m.Name)</b>
+            <div>@Html.EditorFor(m => m.Name)</div>
+            <span class="text-danger">@Html.ValidationMessageFor(m => m.Name)</span>
+        </div>
+        <div class="form-group">
+            <b>@Html.DisplayNameFor(m => m.Budget)</b>
+            <div>@Html.EditorFor(m => m.Budget)</div>
+            <span class="text-danger">@Html.ValidationMessageFor(m => m.Budget)</span>
+        </div>
+        <div class="form-group">
+            <b>@Html.DisplayNameFor(m => m.StartDate)</b>
+            <div>@Html.EditorFor(m => m.StartDate)</div>
+            <span class="text-danger">@Html.ValidationMessageFor(m => m.StartDate)</span>
+        </div>
+        <div class="form-group">
+            <b>@Html.DisplayNameFor(m => m.Adminstrator)</b>
+
+            <div>
+                @Html.DropDownListFor(m => m.AdminstratorId,
+                           (IEnumerable<SelectListItem>)ViewData["Adminstrators"], "Select Adminstrator")
+            </div>
+            <span class="text-danger">@Html.ValidationMessageFor(m => m.AdminstratorId)</span>
+        </div>
+
+        <br />
+        <input type="submit" value="Save" />
+        <span><a asp-action="Index">Back to list</a></span>
+    }
+</div>

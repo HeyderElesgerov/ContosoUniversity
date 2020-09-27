@@ -1,17 +1,20 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 
 namespace ContosoUniversity.Models
 {
     public class Department
     {
-        public int DepartmentId { get; set; }
+        public int ID { get; set; }
 
+        [Required]
         [StringLength(50, MinimumLength = 3)]
         public string Name { get; set; }
 
         [DataType(DataType.Currency)]
+        [DefaultValue(0)]
         public int Budget { get; set; }
 
         [DataType(DataType.Date)]
@@ -20,6 +23,7 @@ namespace ContosoUniversity.Models
 
         public int? AdminstratorId { get; set; }
 
+        [Timestamp]
         public byte[] RowVersion { get; set; }
 
         public Instructor Adminstrator { get; set; }

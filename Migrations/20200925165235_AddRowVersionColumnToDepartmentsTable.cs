@@ -8,9 +8,10 @@ namespace ContosoUniversity.Migrations
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.AddColumn<byte[]>(
-                name: "RowVersion",
-                table: "Departments",
-                nullable: true);
+               name: "RowVersion",
+               table: "Departments",
+               rowVersion: true,
+               nullable: false);
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)

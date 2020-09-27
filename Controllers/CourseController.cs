@@ -57,7 +57,7 @@ namespace ContosoUniversity.Controllers
                 var selectListItem = new SelectListItem()
                 {
                     Text = department.Name,
-                    Value = department.DepartmentId.ToString()
+                    Value = department.ID.ToString()
                 };
 
                 newCourseViewModel.DepartmentsSelectListItems.Add(selectListItem);
@@ -77,7 +77,7 @@ namespace ContosoUniversity.Controllers
                 newCourse.Credits = viewModel.Credits;
 
                 var departmentInDb = await _context.Departments.Where(
-                    d => d.DepartmentId == viewModel.DepartmentId).FirstOrDefaultAsync();
+                    d => d.ID == viewModel.DepartmentId).FirstOrDefaultAsync();
 
                 if (departmentInDb != null)
                 {
@@ -105,7 +105,7 @@ namespace ContosoUniversity.Controllers
                 var selectListItem = new SelectListItem()
                 {
                     Text = department.Name,
-                    Value = department.DepartmentId.ToString()
+                    Value = department.ID.ToString()
                 };
 
                 viewModel.DepartmentsSelectListItems.Add(selectListItem);
@@ -127,7 +127,7 @@ namespace ContosoUniversity.Controllers
             viewModel.ID = id;
             viewModel.Title = courseInDb.Title;
             viewModel.Credits = courseInDb.Credits;
-            viewModel.DepartmentId = courseInDb.Department.DepartmentId;
+            viewModel.DepartmentId = courseInDb.Department.ID;
 
             viewModel.DepartmentsSelectListItems = new List<SelectListItem>();
 
@@ -136,8 +136,8 @@ namespace ContosoUniversity.Controllers
                 var selectListItem = new SelectListItem()
                 {
                     Text = department.Name,
-                    Value = department.DepartmentId.ToString(),
-                    Selected = department.DepartmentId == viewModel.DepartmentId
+                    Value = department.ID.ToString(),
+                    Selected = department.ID == viewModel.DepartmentId
                 };
 
                 viewModel.DepartmentsSelectListItems.Add(selectListItem);
@@ -164,7 +164,7 @@ namespace ContosoUniversity.Controllers
                 courseInDb.Title = viewModel.Title;
                 courseInDb.Credits = viewModel.Credits;
 
-                var departmentInDb = await _context.Departments.Where(d => d.DepartmentId == viewModel.DepartmentId).FirstOrDefaultAsync();
+                var departmentInDb = await _context.Departments.Where(d => d.ID == viewModel.DepartmentId).FirstOrDefaultAsync();
 
                 if (departmentInDb != null)
                 {
@@ -190,8 +190,8 @@ namespace ContosoUniversity.Controllers
                 var selectListItem = new SelectListItem()
                 {
                     Text = department.Name,
-                    Value = department.DepartmentId.ToString(),
-                    Selected = department.DepartmentId == viewModel.DepartmentId
+                    Value = department.ID.ToString(),
+                    Selected = department.ID == viewModel.DepartmentId
                 };
 
                 viewModel.DepartmentsSelectListItems.Add(selectListItem);
