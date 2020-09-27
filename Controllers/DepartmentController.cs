@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
+using System.Data.Common;
 using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
@@ -121,6 +122,33 @@ namespace ContosoUniversity.Controllers
             ViewData["Adminstrators"] = await PopulateInstructors();
             return View(departmentInDb);
 
+        }
+
+        public IActionResult Create()
+        {
+            return View(new Department());
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Create(Department department)
+        {
+            if (ModelState.IsValid)
+            {
+                await _context.Departments.AddAsync(department);
+
+                try
+                {
+                    await _context.SaveChangesAsync();
+                    return RedirectToAction(nameof(Index));
+                }
+                catch(DbException ex)
+                {
+                    ModelState.AddModelError("", ex.Message);
+                }
+            }
+
+            return View(department);
         }
 
         private async Task<IEnumerable<SelectListItem>> PopulateInstructors()
