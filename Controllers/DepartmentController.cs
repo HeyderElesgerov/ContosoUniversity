@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
 using System.Data.Common;
 using System.Linq;
@@ -124,9 +125,10 @@ namespace ContosoUniversity.Controllers
 
         }
 
-        public IActionResult Create()
+        public async Task<IActionResult> Create()
         {
-            return View(new Department());
+            ViewData["Adminstrators"] = await PopulateInstructors();
+            return View(new Department() { StartDate = DateTime.Today });
         }
 
         [HttpPost]
@@ -148,6 +150,7 @@ namespace ContosoUniversity.Controllers
                 }
             }
 
+            ViewData["Adminstrators"] = await PopulateInstructors();
             return View(department);
         }
 

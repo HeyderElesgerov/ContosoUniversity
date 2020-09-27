@@ -14,7 +14,7 @@ namespace ContosoUniversity.Models
         public string Name { get; set; }
 
         [DataType(DataType.Currency)]
-        [DefaultValue(0)]
+        [Range(minimum: 0, maximum: int.MaxValue)]
         public int Budget { get; set; }
 
         [DataType(DataType.Date)]
