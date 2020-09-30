@@ -12,14 +12,26 @@
     <b>@Html.DisplayNameFor(m => m.Title): </b>
     <span>@Html.DisplayFor(m => m.Title)</span>
 </div>
+
 <div class="form-group">
     <b>@Html.DisplayNameFor(m => m.Credits): </b>
     <span>@Html.DisplayFor(m => m.Credits)</span>
 </div>
+
 <div class="form-group">
     <b>Department: </b>
-    <span>@Html.DisplayFor(m => m.Department.Name)</span>
+    @if (Model.Department != null)
+    {
+        <span>@Html.DisplayFor(m => m.Department.Name)</span>
+    }
+    else
+    {
+        <span>
+            <i>There is no department</i>
+        </span>
+    }
 </div>
+
 <div class="form-group">
     <b>Enrolled by: </b>
     @if (Model.Enrollments.Count != 0)
@@ -36,16 +48,16 @@
             <tbody>
                 @foreach (var enrollment in Model.Enrollments)
                 {
-                <tr>
-                    <td>@enrollment.Student.FirstName</td>
-                    <td>@enrollment.Student.LastName</td>
-                    <td>@enrollment.Student.EnrollmentDate</td>
-                    <td>
-                        <a asp-controller="Student" asp-action="Edit" asp-route-id="@enrollment.Student.ID" class="btn-outline-info">Edit</a> |
-                        <a asp-controller="Student" asp-action="Delete" asp-route-id="@enrollment.Student.ID" class="btn-outline-danger">Delete</a> |
-                        <a asp-controller="Student" asp-action="Details" asp-route-id="@enrollment.Student.ID" class="btn-outline-info">Details</a>
-                    </td>
-                </tr>
+                    <tr>
+                        <td>@enrollment.Student.FirstName</td>
+                        <td>@enrollment.Student.LastName</td>
+                        <td>@enrollment.Student.EnrollmentDate</td>
+                        <td>
+                            <a asp-controller="Student" asp-action="Edit" asp-route-id="@enrollment.Student.ID" class="btn-outline-info">Edit</a> |
+                            <a asp-controller="Student" asp-action="Delete" asp-route-id="@enrollment.Student.ID" class="btn-outline-danger">Delete</a> |
+                            <a asp-controller="Student" asp-action="Details" asp-route-id="@enrollment.Student.ID" class="btn-outline-info">Details</a>
+                        </td>
+                    </tr>
                 }
             </tbody>
         </table>
@@ -55,6 +67,7 @@
         <span>Not enrolled</span>
     }
 </div>
+
 <div class="form-group">
     <b>Taught by: </b>
     @if (Model.CourseAssignments.Count != 0)
@@ -71,16 +84,16 @@
             <tbody>
                 @foreach (var assignment in Model.CourseAssignments)
                 {
-                <tr>
-                    <td>@assignment.Instructor.FirstName</td>
-                    <td>@assignment.Instructor.LastName</td>
-                    <td>@assignment.Instructor.HireDate</td>
-                    <td>
-                        <a asp-controller="Instructor" asp-action="Edit" asp-route-id="@assignment.Instructor.ID" class="btn-outline-info">Edit</a> |
-                        <a asp-controller="Instructor" asp-action="Delete" asp-route-id="@assignment.Instructor.ID" class="btn-outline-danger">Delete</a> |
-                        <a asp-controller="Instructor" asp-action="Details" asp-route-id="@assignment.Instructor.ID" class="btn-outline-info">Details</a>
-                    </td>
-                </tr>
+                    <tr>
+                        <td>@assignment.Instructor.FirstName</td>
+                        <td>@assignment.Instructor.LastName</td>
+                        <td>@assignment.Instructor.HireDate</td>
+                        <td>
+                            <a asp-controller="Instructor" asp-action="Edit" asp-route-id="@assignment.Instructor.ID" class="btn-outline-info">Edit</a> |
+                            <a asp-controller="Instructor" asp-action="Delete" asp-route-id="@assignment.Instructor.ID" class="btn-outline-danger">Delete</a> |
+                            <a asp-controller="Instructor" asp-action="Details" asp-route-id="@assignment.Instructor.ID" class="btn-outline-info">Details</a>
+                        </td>
+                    </tr>
                 }
             </tbody>
         </table>
@@ -90,5 +103,7 @@
         <span>Not taught</span>
     }
 </div>
+
 <br />
+
 <a asp-action="Index">Back to list</a>

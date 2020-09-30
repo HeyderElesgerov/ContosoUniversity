@@ -127,7 +127,9 @@ namespace ContosoUniversity.Controllers
             viewModel.ID = id;
             viewModel.Title = courseInDb.Title;
             viewModel.Credits = courseInDb.Credits;
-            viewModel.DepartmentId = courseInDb.Department.ID;
+
+            if (courseInDb.Department != null)
+                viewModel.DepartmentId = courseInDb.Department.ID;
 
             viewModel.DepartmentsSelectListItems = new List<SelectListItem>();
 

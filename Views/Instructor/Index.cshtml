@@ -104,7 +104,13 @@
                             <tr style="background-color:@ViewData["SelectedRowBackgroundColor"]">
                                 <td>@course.ID</td>
                                 <td>@course.Title</td>
-                                <td>@course.Department.Name</td>
+
+                                <td>
+                                    @if (course.Department != null)
+                                    {
+                                        @course.Department.Name
+                                    }
+                                </td>
                                 <td><a asp-route-selectedCourseId="@course.ID" asp-route-selectedInstructorId="@Model.SelectedInstructorId">Select</a></td>
                             </tr>
                         }
