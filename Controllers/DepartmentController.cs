@@ -154,6 +154,35 @@ namespace ContosoUniversity.Controllers
             return View(department);
         }
 
+        public async Task<IActionResult> Delete(int id)
+        {
+            var department = await _context.Departments.FirstOrDefaultAsync(d => d.ID == id);
+
+            if (department == null)
+                return NotFound();
+
+            return View(department);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Delete(Department department)
+        {
+            var departmentInDb = await _context.Departments.FirstOrDefaultAsync(d => d.ID == department.ID);
+
+            if (departmentInDb == null)
+            {
+                ModelState.AddModelError("", "This department was deleted by another user");
+                return View(department);
+            }
+            else
+            {
+                _context.Departments.Remove(departmentInDb);
+                await _context.SaveChangesAsync();
+                return RedirectToAction(nameof(Index));
+            }
+        }
+
         private async Task<IEnumerable<SelectListItem>> PopulateInstructors()
         {
             var selectList = new List<SelectListItem>();
