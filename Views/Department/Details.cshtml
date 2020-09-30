@@ -1,0 +1,61 @@
+﻿@model ContosoUniversity.Models.Department;
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+<h1>Details</h1>
+<br />
+
+<div>
+    <div>
+        <b>@Html.DisplayNameFor(m => m.Name): </b>
+        <span>@Model.Name</span>
+    </div>
+    <div>
+        <b>@Html.DisplayNameFor(m => m.Budget): </b>
+        <span>@Html.DisplayFor(m => m.Budget) </span>
+    </div>
+    <div>
+        <b>@Html.DisplayNameFor(m => m.StartDate): </b>
+        <span>@Html.DisplayFor(m => m.StartDate) </span>
+    </div>
+    <br />
+    <div>
+        <b>@Html.DisplayNameFor(m => m.Courses): </b>
+        @if (Model.Courses.Count() != 0)
+        {
+            <table class="table table-active">
+                <thead>
+                    <tr>
+                        <th>@Html.DisplayNameFor(m => m.Courses.First().Title)</th>
+                        <th>@Html.DisplayNameFor(m => m.Courses.First().Credits)</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach(var course in Model.Courses)
+                    {
+                        <tr>
+                            <td>@course.Title</td>
+                            <td>@course.Credits</td>
+                            <td>
+                                <a asp-controller="Course" asp-action="Edit" asp-route-id="@course.ID">Edit</a> |
+                                <a asp-controller="Course" asp-action="Delete" asp-route-id="@course.ID">Delete</a> |
+                                <a asp-controller="Course" asp-action="Details" asp-route-id="@course.ID">Details</a>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        }
+        else
+        {
+            <span>
+                <i>There is no any course in this department</i>
+            </span>
+        }
+    </div>
+</div>
+<br />
+<a asp-action="Index">Back to list</a>
