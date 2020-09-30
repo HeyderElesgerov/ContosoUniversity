@@ -1,0 +1,37 @@
+﻿@model ContosoUniversity.Models.Department;
+
+@{
+    ViewData["Title"] = "Delete department";
+}
+
+<h1>Delete department</h1>
+<br />
+<h3>Are you sure to delete this department?</h3>
+
+@using (Html.BeginForm())
+{
+    <div class="form-group">
+        <b>@Html.DisplayNameFor(m => m.Name): </b>
+        <span>@Model.Name</span>
+    </div>
+    <div class="form-group">
+        <b>@Html.DisplayNameFor(m => m.Budget): </b>
+        <span>@Model.Budget </span>
+    </div>
+    <div class="form-group">
+        <b>@Html.DisplayNameFor(m => m.StartDate): </b>
+        <span>@Model.StartDate </span>
+    </div>
+    <div class="form-group">
+        <b>@Html.DisplayNameFor(m => m.Adminstrator): </b>
+        @if (Model.Adminstrator != null)
+        {
+            <span>@Model.Adminstrator.FirstName @Model.Adminstrator.LastName</span>
+        }
+    </div>
+    <br />
+    <div class="form-group">
+        <input class="btn btn-danger" type="submit" value="Delete"/>
+        <a class="btn btn-warning" asp-action="Index">Cancle</a>
+    </div>
+}

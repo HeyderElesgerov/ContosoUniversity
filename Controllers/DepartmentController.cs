@@ -144,7 +144,7 @@ namespace ContosoUniversity.Controllers
                     await _context.SaveChangesAsync();
                     return RedirectToAction(nameof(Index));
                 }
-                catch(DbException ex)
+                catch (DbException ex)
                 {
                     ModelState.AddModelError("", ex.Message);
                 }
@@ -156,7 +156,9 @@ namespace ContosoUniversity.Controllers
 
         public async Task<IActionResult> Delete(int id)
         {
-            var department = await _context.Departments.FirstOrDefaultAsync(d => d.ID == id);
+            var department = await _context.Departments
+                                           .Include(p => p.Adminstrator)
+                                           .FirstOrDefaultAsync(d => d.ID == id);
 
             if (department == null)
                 return NotFound();
@@ -177,6 +179,12 @@ namespace ContosoUniversity.Controllers
             }
             else
             {
+                foreach (var course in _context.Courses.Include(c => c.Department)
+                                                       .Where(c => c.Department.ID == department.ID))
+                {
+                    course.Department = null;
+                }
+
                 _context.Departments.Remove(departmentInDb);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
