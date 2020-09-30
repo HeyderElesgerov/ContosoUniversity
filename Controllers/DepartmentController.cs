@@ -29,6 +29,19 @@ namespace ContosoUniversity.Controllers
             return View(departments);
         }
 
+        public async Task<IActionResult> Details(int id)
+        {
+            var department = await _context.Departments
+                                                .Include(p => p.Adminstrator)
+                                                .Include(p => p.Courses)
+                                                .FirstOrDefaultAsync(d => d.ID == id);
+
+            if (department == null)
+                return NotFound();
+
+            return View(department);
+        }
+
         public async Task<IActionResult> Edit(int id)
         {
             var department = await _context.Departments
