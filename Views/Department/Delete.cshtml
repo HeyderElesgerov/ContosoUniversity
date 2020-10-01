@@ -10,28 +10,58 @@
 
 @using (Html.BeginForm())
 {
+    @Html.HiddenFor(m => m.ID)
+    @Html.HiddenFor(m => m.AdminstratorId)
+    @Html.HiddenFor(m => m.Name)
+    @Html.HiddenFor(m => m.Budget)
+    @Html.HiddenFor(m => m.Adminstrator)
+
+    @Html.HiddenFor(m => m.StartDate)
+    @Html.HiddenFor(m => m.RowVersion)
+
+    <div class="text-danger" asp-validation-summary="ModelOnly"></div>
+    <span id="NotFoundInfo" hidden>
+        @ViewData["NotFoundInfo"]
+    </span>
+
     <div class="form-group">
         <b>@Html.DisplayNameFor(m => m.Name): </b>
-        <span>@Model.Name</span>
+        <span>@Html.DisplayFor(m => m.Name)  </span>
+        <div class="text-danger">@Html.ValidationMessageFor(m => m.Name) </div>
     </div>
+
     <div class="form-group">
         <b>@Html.DisplayNameFor(m => m.Budget): </b>
-        <span>@Model.Budget </span>
+        <span>@Html.DisplayFor(m => m.Budget) </span>
+        <div class="text-danger">@Html.ValidationMessageFor(m => m.Budget) </div>
     </div>
+
     <div class="form-group">
         <b>@Html.DisplayNameFor(m => m.StartDate): </b>
-        <span>@Model.StartDate </span>
+        <span>@Html.DisplayFor(m => m.StartDate) </span>
+        <div class="text-danger">@Html.ValidationMessageFor(m => m.StartDate) </div>
     </div>
+
     <div class="form-group">
         <b>@Html.DisplayNameFor(m => m.Adminstrator): </b>
-        @if (Model.Adminstrator != null)
-        {
-            <span>@Model.Adminstrator.FirstName @Model.Adminstrator.LastName</span>
-        }
+
+        <span>
+            @if (Model.Adminstrator != null)
+            {
+                @Model.Adminstrator.FirstName @Model.Adminstrator.LastName
+            }
+            else
+            {
+                <i>There is no department</i>
+            }
+        </span>
+        <div class="text-danger">@Html.ValidationMessageFor(m => m.Adminstrator) </div>
     </div>
+
     <br />
+
     <div class="form-group">
-        <input class="btn btn-danger" type="submit" value="Delete"/>
+        <input class="btn btn-danger" type="submit" value="Delete" />
         <a class="btn btn-warning" asp-action="Index">Cancle</a>
     </div>
 }

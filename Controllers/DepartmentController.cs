@@ -6,7 +6,6 @@ using System;
 using System.Collections.Generic;
 using System.Data.Common;
 using System.Linq;
-using System.Reflection;
 using System.Threading.Tasks;
 
 namespace ContosoUniversity.Controllers
@@ -183,15 +182,17 @@ namespace ContosoUniversity.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Delete(Department department)
         {
-            var departmentInDb = await _context.Departments.FirstOrDefaultAsync(d => d.ID == department.ID);
+            var departmentInDb = await _context.Departments.Where(d => d.ID == department.ID).FirstOrDefaultAsync();
 
             if (departmentInDb == null)
             {
-                ModelState.AddModelError("", "This department was deleted by another user");
-                return View(department);
+                ViewData["NotFoundInfo"] = true;
+                ModelState.AddModelError("", "This department was deleted by another user. You are redirecting...");
             }
             else
             {
+                _context.Entry(departmentInDb).Property(p => p.RowVersion).OriginalValue = department.RowVersion;
+
                 foreach (var course in _context.Courses.Include(c => c.Department)
                                                        .Where(c => c.Department.ID == department.ID))
                 {
@@ -199,9 +200,60 @@ namespace ContosoUniversity.Controllers
                 }
 
                 _context.Departments.Remove(departmentInDb);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+
+                try
+                {
+                    await _context.SaveChangesAsync();
+                    return RedirectToAction(nameof(Index));
+                }
+                catch (DbUpdateConcurrencyException ex)
+                {
+                    var thrownEntry = ex.Entries.Single();
+                    var userValues = (Department)thrownEntry.Entity;
+                    var dbEntry = await thrownEntry.GetDatabaseValuesAsync();
+                    var dbValues = (Department)dbEntry.ToObject();
+
+                    if (dbValues.Name != department.Name)
+                        ModelState.AddModelError(nameof(dbValues.Name), "Current Name: " + dbValues.Name);
+
+                    if (dbValues.Budget != department.Budget)
+                    {
+                        ModelState.AddModelError(nameof(dbValues.Budget),
+                            String.Format("Current budget: {0:c}", dbValues.Budget));
+                    }
+
+                    if (dbValues.StartDate != department.StartDate)
+                    {
+                        ModelState.AddModelError(nameof(dbValues.StartDate),
+                            String.Format("Current date: {0:d}", dbValues.StartDate));
+                    }
+                    if (dbValues.AdminstratorId != department.AdminstratorId)
+                    {
+                        var adminstratorInDb = _context.Instructors.FirstOrDefault(a => a.ID == dbValues.AdminstratorId);
+
+                        if (adminstratorInDb != null)
+                        {
+                            ModelState.AddModelError(nameof(dbValues.Adminstrator),
+                            String.Format("Current adminstrator: {0} {1}",
+                                            adminstratorInDb.FirstName, adminstratorInDb.LastName));
+                        }
+                        else
+                        {
+                            ModelState.AddModelError(nameof(dbValues.Adminstrator),
+                                "Current adminstrator: There is no adminstrator");
+                        }
+                    }
+
+                    ModelState.AddModelError("", "This department was modified by anoher user before you submit deleting operation. If you want to delete this department, press delete button again.");
+
+                    department.RowVersion = dbValues.RowVersion;
+                    ModelState.Remove(nameof(dbValues.RowVersion));
+                }
             }
+
+            department.Adminstrator = await _context.Instructors
+                                                .FirstOrDefaultAsync(i => i.ID == department.AdminstratorId);
+            return View(department);
         }
 
         private async Task<IEnumerable<SelectListItem>> PopulateInstructors()
