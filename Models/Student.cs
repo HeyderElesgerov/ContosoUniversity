@@ -6,6 +6,7 @@ namespace ContosoUniversity.Models
 {
     public class Student : Person
     {
+        [Required]
         [DataType(DataType.Date)]
         [Display(Name = "Enrollment Date")]
         public DateTime EnrollmentDate { get; set; }
