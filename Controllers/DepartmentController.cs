@@ -186,7 +186,6 @@ namespace ContosoUniversity.Controllers
 
             if (departmentInDb == null)
             {
-                ViewData["NotFoundInfo"] = true;
                 ModelState.AddModelError("", "This department was deleted by another user. You are redirecting...");
             }
             else

@@ -20,9 +20,7 @@
     @Html.HiddenFor(m => m.RowVersion)
 
     <div class="text-danger" asp-validation-summary="ModelOnly"></div>
-    <span id="NotFoundInfo" hidden>
-        @ViewData["NotFoundInfo"]
-    </span>
+    
 
     <div class="form-group">
         <b>@Html.DisplayNameFor(m => m.Name): </b>
